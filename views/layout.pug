@@ -1,0 +1,22 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheets/bootstrap-theme.min.css')
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+        script(src="javascripts/bootstrap.min.js")
+
+    body
+        block content
+        nav.navbar.navbar-default.navbar-fixed-bottom
+            .container
+                .collapse.navbar-collapse
+                    ul.nav.navbar-nav
+                        li..active
+                            a(href='#') Tab1
+                        li
+                            a(href='#') Tab2
+                        li
+                            a(href='#') Tab3
