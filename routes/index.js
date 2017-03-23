@@ -32,6 +32,8 @@ router.get('/', function(req, res, next) {
 /* POST home page. */
 router.post('/imageService', function (req, res) {
     var pageNumber = req.body.pageNumber;
+    // var imagePerPage = 2;
+    // var images = [];
     var image = imageData[pageNumber - 1];
     res.send(image);
     // for (var i = pageNumber -1; i < 1; i++ ) {};
