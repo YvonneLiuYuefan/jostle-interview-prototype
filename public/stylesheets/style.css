@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  padding: 50px 50px 100px 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 a {
@@ -8,4 +8,16 @@ a {
 #map-canvas {
   width: 1200px;
   height: 800px;
+}
+.nav.nav-tabs.navbar-fixed-bottom>li {
+    padding: 0px;
+}
+.nav.nav-tabs.navbar-fixed-bottom>li>a {
+  margin: 0px;
+  border: 0px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
