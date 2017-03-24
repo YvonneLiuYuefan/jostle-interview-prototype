@@ -4,7 +4,7 @@
 function updateRotationDegree() {
     var inputVal = $('#inputDegree').val();
     if (inputVal < 0 || inputVal > 720) {
-        // TODO: $('#rotationModal ')
+        $('#rotationModal .modal-body > span').html('Angle should be in the range 0~720 degrees.');
         $('#rotationModal').modal();
     } else {
         $('#rotationImg').mouseover(function() {
@@ -23,6 +23,7 @@ function updateRotationDegree() {
 function updateRotationTime() {
     var inputVal = $('#inputTime').val();
     if (inputVal < 0 || inputVal > 5) {
+        $('#rotationModal .modal-body > span').html('Time should be in the range 0~5s.');
         $('#rotationModal').modal();
     } else {
         $('#rotationImg').css('-webkit-transition', '-webkit-transform ' + inputVal + 's ease-in-out');

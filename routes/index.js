@@ -3,29 +3,45 @@ var router = express.Router();
 
 var http = require('http');
 var imageData;
-var options = {
+var videoData;
+
+http.request({
     host: 'jsonplaceholder.typicode.com',
-    path: '/photos'
-};
-var callback = function(response) {
+    path: '/posts/1'
+}, function(response) {
     var str = '';
     //another chunk of data has been recieved, so append it to `str`
     response.on('data', function (chunk) {
         str += chunk;
     });
     response.on('end', function () {
-        imageData = JSON.parse(str);
+        videoData = JSON.parse(str);
     });
-}
+}).end();
 
-http.request(options, callback).end();
+http.request({
+        host: 'jsonplaceholder.typicode.com',
+        path: '/photos'
+    }, function(response) {
+        var str = '';
+        //another chunk of data has been recieved, so append it to `str`
+        response.on('data', function (chunk) {
+            str += chunk;
+        });
+        response.on('end', function () {
+            imageData = JSON.parse(str);
+        });
+    }).end();
+
+
 
 var imagePerPage = 10;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { video_title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-      video_body: "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae ut ut quas totam nostrum rerum est autem sunt rem eveniet architecto"
+  res.render('index', {
+      video_body: videoData.body,
+      video_title: videoData.title
   });
 });
 
