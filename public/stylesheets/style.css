@@ -6,6 +6,9 @@ body {
 a {
   color: #00b7ff;
 }
+.tab-pane.fade{
+    transition: opacity .8s linear;
+}
 #map-canvas {
   width: 1200px;
   height: 800px;
@@ -47,4 +50,15 @@ ul.pagination > li > span {
 }
 iframe{
     max-height: 60vh;
+}
+#rotationImg {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    -webkit-transition: -webkit-transform 1s ease-in-out;
+    transition:         transform 1s ease-in-out;
+}
+#rotationImg:hover {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
 }

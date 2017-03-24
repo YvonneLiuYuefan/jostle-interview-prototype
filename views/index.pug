@@ -11,7 +11,7 @@ block content
                 li.col-sm-4
                     a(href='#other', data-toggle='tab') Other
             #my-tab-content.tab-content
-                #video.tab-pane.active
+                #video.tab-pane.active.fade.in
                     .row
                         .col-sm-1
                         #videoContainer.col-sm-10
@@ -20,7 +20,7 @@ block content
                             .embed-responsive.embed-responsive-16by9
                                 iframe.embed-responsive-item(src='//www.youtube.com/embed/AZUxpa_ycYo')
                         .col-sm-1
-                #image.tab-pane
+                #image.tab-pane.fade
                     nav#paginationnav(aria-label='Page navigation example')
                         ul.pagination
                             li.page-item.first.disabled
@@ -40,9 +40,22 @@ block content
                     div.tab-content-container
                         #imageContainer
 
-                #other.tab-pane
+                #other.tab-pane.fade
                     h1 Other
-                    p other other other other other
+                    p Try change the value and hover over the image
+                    .form-horizontal
+                        .form-group
+                            label.col-sm-1.control-label(for='inputTime') Time
+                            .col-sm-2
+                                input#inputTime.form-control(type='number', value='1')
+                            .col-sm-4
+                                span Time should be in the range 0~5s.
+                        .form-group
+                            label.col-sm-1.control-label(for='inputDegree') Angle
+                            .col-sm-2
+                                input#inputDegree.form-control(type='number', value='360')
+                            .col-sm-4
+                                span Angle should be in the range 0~720 degrees.
                     img#rotationImg(src="https://s3-us-west-2.amazonaws.com/s.lumpen.com/media/images/showimages/radius.jpg")
 
     #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel')
@@ -58,6 +71,15 @@ block content
                     br
                     span ThumbnailUrl:
                     span#span2 span2
+    #rotationModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') &times;
+                    h4#rotationModalLabel.modal-title Error
+                .modal-body
+                    span Time should be in the range 0~5s.
 
     script(type='text/javascript').
         jQuery(document).ready(function ($) {
@@ -68,6 +90,31 @@ block content
             window.middlePage = 2;
             window.activePage = 1;
         });
+        function updateRotationDegree() {
+            var inputVal = $('#inputDegree').val();
+            if (inputVal < 0 || inputVal > 720) {
+                // $('#rotationModal ')
+                $('#rotationModal').modal();
+            } else {
+                $('#rotationImg').mouseover(function() {
+                    $(this).css('-webkit-transform', 'rotate(' + inputVal + 'deg)');
+                    $(this).css('transform', 'rotate(' + inputVal + 'deg)');
+                });
+                $('#rotationImg').mouseout(function () {
+                    $(this).css('-webkit-transform', 'rotate(0deg)');
+                    $(this).css('transform', 'rotate(0deg)');
+                });
+            }
+        }
+        function updateRotationTime() {
+            var inputVal = $('#inputTime').val();
+            if (inputVal < 0 || inputVal > 5) {
+                $('#rotationModal').modal();
+            } else {
+                $('#rotationImg').css('-webkit-transition', '-webkit-transform ' + inputVal + 's ease-in-out');
+                $('#rotationImg').css('transition', 'transform ' + inputVal + 's ease-in-out');
+            }
+        }
         $('#exampleModal').on('show.bs.modal', function (event) {
             var img = $(event.relatedTarget); // Img that triggered the modal
             var title = img.data('title');
@@ -125,8 +172,13 @@ block content
             setPageIndex();
             imagePage($('#left'));
         });
+        $('#inputTime').keyup(updateRotationTime);
+        $('#inputTime').change(updateRotationTime);
+        $('#inputDegree').keyup(updateRotationDegree);
+        $('#inputDegree').change(updateRotationDegree);
 
     script(type='text/javascript').
+
         function setActivePage(id) {
             var previousActivePage = window.previousActivePage;
             previousActivePage.removeClass("active");
