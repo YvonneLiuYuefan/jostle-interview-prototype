@@ -1,6 +1,6 @@
 jQuery(document).ready(function ($) {
     $('#tabs').tab();
-    imagePage(null);
+    updateImageGallery(null);
     getMaxPage();
     window.previousActivePage = $('li.page-item.active');
     window.middlePage = 2;
@@ -22,49 +22,49 @@ jQuery(document).ready(function ($) {
     });
     $('li.page-item.next').on('click',function(event){
         if (window.activePage == 1) {
-            setActivePage("#middle");
+            setActivePaginationButton("#middle");
             window.activePage++;
-            imagePage($('#middle'));
+            updateImageGallery($('#middle'));
         } else if (window.activePage == window.maxPage - 1 ) {
-            setActivePage("#right");
+            setActivePaginationButton("#right");
             window.activePage++;
-            imagePage($('#right'));
+            updateImageGallery($('#right'));
         } else {
             window.activePage++;
             window.middlePage++;
             setPageIndex();
-            imagePage($('#middle'));
+            updateImageGallery($('#middle'));
         }
     });
     $('li.page-item.previous').on('click', function (event) {
         if (window.activePage == window.maxPage) {
-            setActivePage("#middle");
+            setActivePaginationButton("#middle");
             window.activePage--;
-            imagePage($('#middle'));
+            updateImageGallery($('#middle'));
         } else if (window.activePage == 2) {
-            setActivePage("#left");
+            setActivePaginationButton("#left");
             window.activePage--;
-            imagePage($('#left'));
+            updateImageGallery($('#left'));
         } else {
             window.activePage--;
             window.middlePage--;
             setPageIndex();
-            imagePage($('#middle'));
+            updateImageGallery($('#middle'));
         }
     });
     $('li.page-item.last').on('click', function(event){
-        setActivePage("#right");
+        setActivePaginationButton("#right");
         window.activePage = window.maxPage;
         window.middlePage = window.maxPage - 1;
         setPageIndex();
-        imagePage($('#right'));
+        updateImageGallery($('#right'));
     });
     $('li.page-item.first').on('click', function (event) {
-        setActivePage("#left");
+        setActivePaginationButton("#left");
         window.activePage = 1;
         window.middlePage = 2;
         setPageIndex();
-        imagePage($('#left'));
+        updateImageGallery($('#left'));
     });
 });
 

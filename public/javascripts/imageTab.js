@@ -1,10 +1,20 @@
-function setActivePage(id) {
+/**
+ * helper function
+ * add active class to current pagination button, so that it appears as being selected
+ * @param id
+ */
+function setActivePaginationButton(id) {
     var previousActivePage = window.previousActivePage;
     previousActivePage.removeClass("active");
     var liObject = $(id).closest("li");
     liObject.addClass("active");
     window.previousActivePage = liObject;
 }
+/**
+ * helper function
+ * update page index on pagination buttons, so that when the button is clicked,
+ * the right page number is sent to be back end
+ */
 function setPageIndex(){
     $('#left').html(window.middlePage - 1);
     $('#left').data('pagenumber', window.middlePage - 1);
@@ -13,15 +23,23 @@ function setPageIndex(){
     $('#right').html(window.middlePage + 1);
     $('#right').data('pagenumber', window.middlePage + 1);
 }
+/**
+ * get the total number of pages of given image data,
+ * so that pagination nav know the max page number
+ */
 function getMaxPage() {
     $.ajax({
         method: "POST",
         url: "/pageService"
     })
-        .done(function (res) {
-            window.maxPage = res.maxPage;
-        });
+    .done(function (res) {
+        window.maxPage = res.maxPage;
+    });
 }
+/**
+ * helper function
+ * enable/disable certain pagination buttons depending on the current active page
+ */
 function updateButtonState() {
     var previousLi = $('li.page-item.previous');
     var firstLi = $('li.page-item.first');
@@ -68,21 +86,25 @@ function updateButtonState() {
         }
     }
 }
-function imagePage(src) {
+/**
+ * update list of images based on the active pagination button
+ * @param src
+ */
+function updateImageGallery(src) {
     var pageNumber;
     if (src != null) {
         pageNumber = $(src).data('pagenumber');
         window.activePage = pageNumber;
         if (pageNumber == 1) {
-            setActivePage('#left');
+            setActivePaginationButton('#left');
             window.middlePage = 2;
             setPageIndex();
         } else if (pageNumber == window.maxPage) {
-            setActivePage('#right');
+            setActivePaginationButton('#right');
             window.middlePage = pageNumber - 1;
             setPageIndex();
         } else {
-            setActivePage('#middle');
+            setActivePaginationButton('#middle');
             window.middlePage = pageNumber;
             setPageIndex();
         }
@@ -90,6 +112,8 @@ function imagePage(src) {
         pageNumber = 1;
     }
     updateButtonState();
+    // send current page to server
+    // server will return the 10 images based on the page number
     $.ajax({
         method: "POST",
         url: "/imageService",
@@ -97,26 +121,27 @@ function imagePage(src) {
             "pageNumber": pageNumber
         }
     })
-        .done(function (res) {
-            $('#imageContainer').html("");
-            for (var i = 0; i < res.length; i++) {
-                var img = $('<img />', {
-                    class: 'img-responsive img-margin',
-                    src: res[i].url,
-                    alt: res[i].id,
-                    'data-toggle': "modal",
-                    'data-target': "#imageInfoModal",
-                    'data-title' : res[i].title,
-                    'data-thumbnailurl' : res[i].thumbnailUrl,
-                    'data-position': i+1
-                });
-                img.appendTo($('#imageContainer'));
-                var span = $('<div />', {
-                    class: 'img-description'
-                }).html(res[i].title);
-                $('#imageContainer').append(span);
-            }
+    .done(function (res) {
+        // once we get the image array, construct 10 image elements and description div elements
+        $('#imageContainer').html("");
+        for (var i = 0; i < res.length; i++) {
+            var img = $('<img />', {
+                class: 'img-responsive img-margin',
+                src: res[i].url,
+                alt: res[i].id,
+                'data-toggle': "modal",
+                'data-target': "#imageInfoModal",
+                'data-title' : res[i].title,
+                'data-thumbnailurl' : res[i].thumbnailUrl,
+                'data-position': i+1
+            });
+            img.appendTo($('#imageContainer'));
+            var span = $('<div />', {
+                class: 'img-description'
+            }).html(res[i].title);
+            $('#imageContainer').append(span);
+        }
 
 
-        });
+    });
 }
