@@ -1,6 +1,7 @@
 body {
   padding: 50px 50px 100px 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  overflow-y: hidden;
 }
 a {
   color: #00b7ff;
@@ -20,4 +21,13 @@ a {
   flex-direction: column;
   justify-content: center;
   text-align: center;
+}
+.img-description {
+    margin: 25px 0px 50px 0px;
+    font-size: 22px;
+}
+
+.tab-content-container {
+    height: 85vh;
+    overflow-y: scroll;
 }

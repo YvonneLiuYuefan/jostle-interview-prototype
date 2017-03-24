@@ -29,53 +29,153 @@ block content
                                 iframe.embed-responsive-item(src='//www.youtube.com/embed/AZUxpa_ycYo')
                         .col-sm-1
                 #image.tab-pane
-                    h1 Image
-                    p image image image image image
-                    nav(aria-label='Page navigation example')
-                        ul.pagination
-                            li.page-item
-                                a.page-link(href='#', aria-label='Previous')
-                                    span(aria-hidden='true') &laquo;
-                                    |
-                                    span.sr-only Previous
-                            li.page-item
-                                span.page-link(onclick='imagePage(1)') 1
-                            li.page-item
-                                span.page-link(onclick='imagePage(2)') 2
-                            li.page-item
-                                span.page-link(onclick='imagePage(3)') 3
-                            li.page-item
-                                a.page-link(href='#', aria-label='Next')
-                                    span(aria-hidden='true') &raquo;
-                                    |
-                                    span.sr-only Next
-                    #imageContainer
-                        img.img-responsive(src='http://placehold.it/600/92c952', alt='image1')
-                        h3 111 accusamus beatae ad facilis cum similique qui sunt
+                    div.tab-content-container
+                        h1 Image
+                        p image image image image image
+                        nav(aria-label='Page navigation example')
+                            ul.pagination
+                                li.page-item.first
+                                    span &laquo;
+                                li.page-item.previous
+                                    span &lt;
+                                li.page-item.active
+                                    span#left.page-link(data-pagenumber='1', onclick='imagePage(this))') 1
+                                li.page-item
+                                    span#middle.page-link(data-pagenumber='2', onclick='imagePage(this)') 2
+                                li.page-item
+                                    span#right.page-link(data-pagenumber='3', onclick='imagePage(this)') 3
+                                li.page-item.next
+                                    span &gt;
+                                li.page-item.last
+                                    span &raquo;
+
+                        #imageContainer
+
                 #other.tab-pane
                     h1 Other
                     p other other other other other
 
-        script(type='text/javascript').
-            jQuery(document).ready(function ($) {
-                $('#tabs').tab();
-            });
-        script(type='text/javascript').
-            function imagePage(pageNumber) {
-                $.ajax({
-                    method: "POST",
-                    url: "/imageService",
-                    data: {
-                        "pageNumber": pageNumber
-                    }
-                })
+    #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') &times;
+                    h4#exampleModalLabel.modal-title Image detail
+                .modal-body
+                    span Title:
+                    span#span1 span1
+                    br
+                    span ThumbnailUrl:
+                    span#span2 span2
+
+    script(type='text/javascript').
+        jQuery(document).ready(function ($) {
+            $('#tabs').tab();
+            imagePage(null);
+            getMaxPage();
+            window.previousActivePage = $('li.page-item.active');
+            window.middlePage = 2;
+            window.activePage = 1;
+        });
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var img = $(event.relatedTarget); // Img that triggered the modal
+            var title = img.data('title');
+            var thumbnailUrl = img.data('thumbnailurl');
+            var position = img.data('position');
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this);
+            modal.find('.modal-title').text('Image ' + position + '/10');
+            modal.find('#span1').html(title);
+            modal.find('#span2').html(thumbnailUrl);
+        });
+        $('li.page-item.next').on('click',function(event){
+            if (window.activePage == 1) {
+                var previousActivePage = window.previousActivePage;
+                previousActivePage.removeClass("active");
+                var liObject = $('#middle').closest("li");
+                liObject.addClass("active");
+                window.previousActivePage = liObject;
+                window.activePage = 2;
+                imagePage($('#middle'));
+            } else {
+                window.activePage++;
+                window.middlePage++;
+                $('#middle').html(window.middlePage);
+                $('#middle').data('pagenumber', window.middlePage);
+                $('#left').html(window.middlePage - 1);
+                $('#left').data('pagenumber', window.middlePage - 1);
+                $('#right').html(window.middlePage + 1);
+                $('#right').data('pagenumber', window.middlePage + 1);
+                imagePage($('#middle'));
+            }
+        });
+        $('li.page-item.last').on('click', function(event){
+            var previousActivePage = window.previousActivePage;
+            previousActivePage.removeClass("active");
+            var liObject = $('#right').closest("li");
+            liObject.addClass("active");
+            window.previousActivePage = liObject;
+            window.activePage = window.maxPage;
+            window.middlePage = window.maxPage - 1;
+            $('#left').html(window.middlePage - 1);
+            $('#left').data('pagenumber', window.middlePage - 1);
+            $('#middle').html(window.middlePage);
+            $('#middle').data('pagenumber', window.middlePage);
+            $('#right').html(window.middlePage + 1);
+            $('#right').data('pagenumber', window.middlePage + 1);
+            imagePage($('#right'));
+        });
+
+    script(type='text/javascript').
+        function getMaxPage() {
+            $.ajax({
+                method: "POST",
+                url: "/pageService"
+            })
                 .done(function (res) {
-                    $('#imageContainer').html("");
+                    window.maxPage = res.maxPage;
+                });
+        }
+        function imagePage(src) {
+            var pageNumber;
+            if (src != null) {
+                pageNumber = $(src).data('pagenumber');
+                var previousActivePage = window.previousActivePage;
+                previousActivePage.removeClass("active");
+                var liObject = $(src).closest("li");
+                liObject.addClass("active");
+                window.previousActivePage = liObject;
+            } else {
+                pageNumber = 1;
+            }
+            $.ajax({
+                method: "POST",
+                url: "/imageService",
+                data: {
+                    "pageNumber": pageNumber
+                }
+            })
+            .done(function (res) {
+                $('#imageContainer').html("");
+                for (var i = 0; i < res.length; i++) {
                     var img = $('<img />', {
                         class: 'img-responsive',
-                        src: res.url,
-                        alt: res.id
+                        src: res[i].url,
+                        alt: res[i].id,
+                        'data-toggle': "modal",
+                        'data-target': "#exampleModal",
+                        'data-title' : res[i].title,
+                        'data-thumbnailurl' : res[i].thumbnailUrl,
+                        'data-position': i+1
                     });
                     img.appendTo($('#imageContainer'));
-                });
-            }
+                    var span = $('<div />', {
+                        class: 'img-description'
+                    }).html(res[i].title);
+                    $('#imageContainer').append(span);
+                }
+
+
+            });
+        }

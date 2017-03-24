@@ -20,7 +20,7 @@ var callback = function(response) {
 
 http.request(options, callback).end();
 
-
+var imagePerPage = 10;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -32,11 +32,21 @@ router.get('/', function(req, res, next) {
 /* POST home page. */
 router.post('/imageService', function (req, res) {
     var pageNumber = req.body.pageNumber;
-    // var imagePerPage = 2;
-    // var images = [];
-    var image = imageData[pageNumber - 1];
-    res.send(image);
-    // for (var i = pageNumber -1; i < 1; i++ ) {};
+    var images = [];
+    for (var i = 0 ; i < imagePerPage ; i++ ) {
+        var imageIndexInData = (pageNumber-1) * imagePerPage + i;
+        images.push(imageData[imageIndexInData]);
+    }
+    res.send(images);
+});
+
+/* POST home page. */
+router.post('/pageService', function (req, res) {
+    var imageNumber = imageData.length;
+    var maxPage = imageNumber / imagePerPage;
+    res.send({
+        maxPage: maxPage
+    });
 });
 
 module.exports = router;
