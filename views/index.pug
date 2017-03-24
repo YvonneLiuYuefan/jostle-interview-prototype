@@ -14,15 +14,7 @@ block content
                 #video.tab-pane.active
                     .row
                         .col-sm-1
-                        .col-sm-10
-                            h2= video_title
-                            h3= video_body
-                            .embed-responsive.embed-responsive-16by9
-                                iframe.embed-responsive-item(src='//www.youtube.com/embed/AZUxpa_ycYo')
-                        .col-sm-1
-                    .row
-                        .col-sm-1
-                        .col-sm-10
+                        #videoContainer.col-sm-10
                             h2= video_title
                             h3= video_body
                             .embed-responsive.embed-responsive-16by9
@@ -51,6 +43,7 @@ block content
                 #other.tab-pane
                     h1 Other
                     p other other other other other
+                    img#rotationImg(src="https://s3-us-west-2.amazonaws.com/s.lumpen.com/media/images/showimages/radius.jpg")
 
     #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel')
         .modal-dialog(role='document')
