@@ -39,7 +39,7 @@ block content
                                 li.page-item.previous
                                     span &lt;
                                 li.page-item.active
-                                    span#left.page-link(data-pagenumber='1', onclick='imagePage(this))') 1
+                                    span#left.page-link(data-pagenumber='1', onclick='imagePage(this)') 1
                                 li.page-item
                                     span#middle.page-link(data-pagenumber='2', onclick='imagePage(this)') 2
                                 li.page-item
@@ -91,43 +91,67 @@ block content
         });
         $('li.page-item.next').on('click',function(event){
             if (window.activePage == 1) {
-                var previousActivePage = window.previousActivePage;
-                previousActivePage.removeClass("active");
-                var liObject = $('#middle').closest("li");
-                liObject.addClass("active");
-                window.previousActivePage = liObject;
-                window.activePage = 2;
+                setActivePage("#middle");
+                window.activePage++;
                 imagePage($('#middle'));
+            } else if (window.activePage == window.maxPage - 1 ) {
+                setActivePage("#right");
+                window.activePage++;
+                imagePage($('#right'));
             } else {
                 window.activePage++;
                 window.middlePage++;
-                $('#middle').html(window.middlePage);
-                $('#middle').data('pagenumber', window.middlePage);
-                $('#left').html(window.middlePage - 1);
-                $('#left').data('pagenumber', window.middlePage - 1);
-                $('#right').html(window.middlePage + 1);
-                $('#right').data('pagenumber', window.middlePage + 1);
+                setPageIndex();
+                imagePage($('#middle'));
+            }
+        });
+        $('li.page-item.previous').on('click', function (event) {
+            if (window.activePage == window.maxPage) {
+                setActivePage("#middle");
+                window.activePage--;
+                imagePage($('#middle'));
+            } else if (window.activePage == 2) {
+                setActivePage("#left");
+                window.activePage--;
+                imagePage($('#left'));
+            } else {
+                window.activePage--;
+                window.middlePage--;
+                setPageIndex();
                 imagePage($('#middle'));
             }
         });
         $('li.page-item.last').on('click', function(event){
-            var previousActivePage = window.previousActivePage;
-            previousActivePage.removeClass("active");
-            var liObject = $('#right').closest("li");
-            liObject.addClass("active");
-            window.previousActivePage = liObject;
+            setActivePage("#right");
             window.activePage = window.maxPage;
             window.middlePage = window.maxPage - 1;
+            setPageIndex();
+            imagePage($('#right'));
+        });
+        $('li.page-item.first').on('click', function (event) {
+            setActivePage("#left");
+            window.activePage = 1;
+            window.middlePage = 2;
+            setPageIndex();
+            imagePage($('#left'));
+        });
+
+    script(type='text/javascript').
+        function setActivePage(id) {
+            var previousActivePage = window.previousActivePage;
+            previousActivePage.removeClass("active");
+            var liObject = $(id).closest("li");
+            liObject.addClass("active");
+            window.previousActivePage = liObject;
+        }
+        function setPageIndex(){
             $('#left').html(window.middlePage - 1);
             $('#left').data('pagenumber', window.middlePage - 1);
             $('#middle').html(window.middlePage);
             $('#middle').data('pagenumber', window.middlePage);
             $('#right').html(window.middlePage + 1);
             $('#right').data('pagenumber', window.middlePage + 1);
-            imagePage($('#right'));
-        });
-
-    script(type='text/javascript').
+        }
         function getMaxPage() {
             $.ajax({
                 method: "POST",
@@ -141,11 +165,20 @@ block content
             var pageNumber;
             if (src != null) {
                 pageNumber = $(src).data('pagenumber');
-                var previousActivePage = window.previousActivePage;
-                previousActivePage.removeClass("active");
-                var liObject = $(src).closest("li");
-                liObject.addClass("active");
-                window.previousActivePage = liObject;
+                window.activePage = pageNumber;
+                if (pageNumber == 1) {
+                    setActivePage('#left');
+                    window.middlePage = 2;
+                    setPageIndex();
+                } else if (pageNumber == window.maxPage) {
+                    setActivePage('#right');
+                    window.middlePage = pageNumber - 1;
+                    setPageIndex();
+                } else {
+                    setActivePage('#middle');
+                    window.middlePage = pageNumber;
+                    setPageIndex();
+                }
             } else {
                 pageNumber = 1;
             }
