@@ -1,0 +1,17 @@
+#other.tab-pane.fade
+    h1 Other
+    p Try change the value and hover over the image
+    .form-horizontal
+        .form-group
+            label.col-sm-1.control-label(for='inputTime') Time
+            .col-sm-2
+                input#inputTime.form-control(type='number', value='1')
+            .col-sm-4
+                span Time should be in the range 0~5s.
+        .form-group
+            label.col-sm-1.control-label(for='inputDegree') Angle
+            .col-sm-2
+                input#inputDegree.form-control(type='number', value='360')
+            .col-sm-4
+                span Angle should be in the range 0~720 degrees.
+    img#rotationImg(src="https://s3-us-west-2.amazonaws.com/s.lumpen.com/media/images/showimages/radius.jpg")

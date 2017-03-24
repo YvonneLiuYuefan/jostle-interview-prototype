@@ -11,76 +11,10 @@ block content
                 li.col-sm-4
                     a(href='#other', data-toggle='tab') Other
             #my-tab-content.tab-content
-                #video.tab-pane.active.fade.in
-                    .row
-                        .col-sm-1
-                        #videoContainer.col-sm-10
-                            h2= video_title
-                            h3= video_body
-                            .embed-responsive.embed-responsive-16by9
-                                iframe.embed-responsive-item(src='//www.youtube.com/embed/AZUxpa_ycYo')
-                        .col-sm-1
-                #image.tab-pane.fade
-                    nav#paginationnav(aria-label='Page navigation example')
-                        ul.pagination
-                            li.page-item.first.disabled
-                                span &laquo;
-                            li.page-item.previous.disabled
-                                span &lt;
-                            li.page-item.active
-                                span#left.page-link(data-pagenumber='1', onclick='updateImageGallery(this)') 1
-                            li.page-item
-                                span#middle.page-link(data-pagenumber='2', onclick='updateImageGallery(this)') 2
-                            li.page-item
-                                span#right.page-link(data-pagenumber='3', onclick='updateImageGallery(this)') 3
-                            li.page-item.next
-                                span &gt;
-                            li.page-item.last
-                                span &raquo;
-                    div.tab-content-container
-                        #imageContainer
+                include includes/video.pug
+                include includes/image.pug
+                include includes/other.pug
+    include includes/modal.pug
 
-                #other.tab-pane.fade
-                    h1 Other
-                    p Try change the value and hover over the image
-                    .form-horizontal
-                        .form-group
-                            label.col-sm-1.control-label(for='inputTime') Time
-                            .col-sm-2
-                                input#inputTime.form-control(type='number', value='1')
-                            .col-sm-4
-                                span Time should be in the range 0~5s.
-                        .form-group
-                            label.col-sm-1.control-label(for='inputDegree') Angle
-                            .col-sm-2
-                                input#inputDegree.form-control(type='number', value='360')
-                            .col-sm-4
-                                span Angle should be in the range 0~720 degrees.
-                    img#rotationImg(src="https://s3-us-west-2.amazonaws.com/s.lumpen.com/media/images/showimages/radius.jpg")
-
-    #imageInfoModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='imageInfoModalLabel')
-        .modal-dialog(role='document')
-            .modal-content
-                .modal-header
-                    button.close(type='button', data-dismiss='modal', aria-label='Close')
-                        span(aria-hidden='true') &times;
-                    h4#imageInfoModalLabel.modal-title Image detail
-                .modal-body
-                    span Title:
-                    span#span1 span1
-                    br
-                    span ThumbnailUrl:
-                    span#span2 span2
-    #rotationModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='rotationModalLabel')
-        .modal-dialog(role='document')
-            .modal-content
-                .modal-header
-                    button.close(type='button', data-dismiss='modal', aria-label='Close')
-                        span(aria-hidden='true') &times;
-                    h4#rotationModalLabel.modal-title Error
-                .modal-body
-                    span
-
-    script(type='text/javascript').
 
 

@@ -1,0 +1,22 @@
+#imageInfoModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='imageInfoModalLabel')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') &times;
+                h4#imageInfoModalLabel.modal-title Image detail
+            .modal-body
+                span Title:
+                span#span1 span1
+                br
+                span ThumbnailUrl:
+                span#span2 span2
+#rotationModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='rotationModalLabel')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') &times;
+                h4#rotationModalLabel.modal-title Error
+            .modal-body
+                span
