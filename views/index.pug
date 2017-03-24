@@ -58,20 +58,20 @@ block content
                                 span Angle should be in the range 0~720 degrees.
                     img#rotationImg(src="https://s3-us-west-2.amazonaws.com/s.lumpen.com/media/images/showimages/radius.jpg")
 
-    #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel')
+    #imageInfoModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='imageInfoModalLabel')
         .modal-dialog(role='document')
             .modal-content
                 .modal-header
                     button.close(type='button', data-dismiss='modal', aria-label='Close')
                         span(aria-hidden='true') &times;
-                    h4#exampleModalLabel.modal-title Image detail
+                    h4#imageInfoModalLabel.modal-title Image detail
                 .modal-body
                     span Title:
                     span#span1 span1
                     br
                     span ThumbnailUrl:
                     span#span2 span2
-    #rotationModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel')
+    #rotationModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='rotationModalLabel')
         .modal-dialog(role='document')
             .modal-content
                 .modal-header
@@ -82,222 +82,5 @@ block content
                     span Time should be in the range 0~5s.
 
     script(type='text/javascript').
-        jQuery(document).ready(function ($) {
-            $('#tabs').tab();
-            imagePage(null);
-            getMaxPage();
-            window.previousActivePage = $('li.page-item.active');
-            window.middlePage = 2;
-            window.activePage = 1;
-        });
-        function updateRotationDegree() {
-            var inputVal = $('#inputDegree').val();
-            if (inputVal < 0 || inputVal > 720) {
-                // $('#rotationModal ')
-                $('#rotationModal').modal();
-            } else {
-                $('#rotationImg').mouseover(function() {
-                    $(this).css('-webkit-transform', 'rotate(' + inputVal + 'deg)');
-                    $(this).css('transform', 'rotate(' + inputVal + 'deg)');
-                });
-                $('#rotationImg').mouseout(function () {
-                    $(this).css('-webkit-transform', 'rotate(0deg)');
-                    $(this).css('transform', 'rotate(0deg)');
-                });
-            }
-        }
-        function updateRotationTime() {
-            var inputVal = $('#inputTime').val();
-            if (inputVal < 0 || inputVal > 5) {
-                $('#rotationModal').modal();
-            } else {
-                $('#rotationImg').css('-webkit-transition', '-webkit-transform ' + inputVal + 's ease-in-out');
-                $('#rotationImg').css('transition', 'transform ' + inputVal + 's ease-in-out');
-            }
-        }
-        $('#exampleModal').on('show.bs.modal', function (event) {
-            var img = $(event.relatedTarget); // Img that triggered the modal
-            var title = img.data('title');
-            var thumbnailUrl = img.data('thumbnailurl');
-            var position = img.data('position');
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var modal = $(this);
-            modal.find('.modal-title').text('Image ' + position + '/10');
-            modal.find('#span1').html(title);
-            modal.find('#span2').html(thumbnailUrl);
-        });
-        $('li.page-item.next').on('click',function(event){
-            if (window.activePage == 1) {
-                setActivePage("#middle");
-                window.activePage++;
-                imagePage($('#middle'));
-            } else if (window.activePage == window.maxPage - 1 ) {
-                setActivePage("#right");
-                window.activePage++;
-                imagePage($('#right'));
-            } else {
-                window.activePage++;
-                window.middlePage++;
-                setPageIndex();
-                imagePage($('#middle'));
-            }
-        });
-        $('li.page-item.previous').on('click', function (event) {
-            if (window.activePage == window.maxPage) {
-                setActivePage("#middle");
-                window.activePage--;
-                imagePage($('#middle'));
-            } else if (window.activePage == 2) {
-                setActivePage("#left");
-                window.activePage--;
-                imagePage($('#left'));
-            } else {
-                window.activePage--;
-                window.middlePage--;
-                setPageIndex();
-                imagePage($('#middle'));
-            }
-        });
-        $('li.page-item.last').on('click', function(event){
-            setActivePage("#right");
-            window.activePage = window.maxPage;
-            window.middlePage = window.maxPage - 1;
-            setPageIndex();
-            imagePage($('#right'));
-        });
-        $('li.page-item.first').on('click', function (event) {
-            setActivePage("#left");
-            window.activePage = 1;
-            window.middlePage = 2;
-            setPageIndex();
-            imagePage($('#left'));
-        });
-        $('#inputTime').keyup(updateRotationTime);
-        $('#inputTime').change(updateRotationTime);
-        $('#inputDegree').keyup(updateRotationDegree);
-        $('#inputDegree').change(updateRotationDegree);
-
-    script(type='text/javascript').
-
-        function setActivePage(id) {
-            var previousActivePage = window.previousActivePage;
-            previousActivePage.removeClass("active");
-            var liObject = $(id).closest("li");
-            liObject.addClass("active");
-            window.previousActivePage = liObject;
-        }
-        function setPageIndex(){
-            $('#left').html(window.middlePage - 1);
-            $('#left').data('pagenumber', window.middlePage - 1);
-            $('#middle').html(window.middlePage);
-            $('#middle').data('pagenumber', window.middlePage);
-            $('#right').html(window.middlePage + 1);
-            $('#right').data('pagenumber', window.middlePage + 1);
-        }
-        function getMaxPage() {
-            $.ajax({
-                method: "POST",
-                url: "/pageService"
-            })
-                .done(function (res) {
-                    window.maxPage = res.maxPage;
-                });
-        }
-        function updateButtonState() {
-            var previousLi = $('li.page-item.previous');
-            var firstLi = $('li.page-item.first');
-            var nextLi = $('li.page-item.next');
-            var lastLi = $('li.page-item.last');
-            if (window.activePage == 1){
-                if (!firstLi.hasClass('disabled')){
-                    firstLi.addClass('disabled');
-                }
-                if (!previousLi.hasClass('disabled')) {
-                    previousLi.addClass('disabled');
-                }
-                if (nextLi.hasClass('disabled')) {
-                    nextLi.removeClass('disabled');
-                }
-                if (lastLi.hasClass('disabled')) {
-                    lastLi.removeClass('disabled');
-                }
-            } else if (window.activePage == window.maxPage) {
-                if (firstLi.hasClass('disabled')) {
-                    firstLi.removeClass('disabled');
-                }
-                if (previousLi.hasClass('disabled')) {
-                    previousLi.removeClass('disabled');
-                }
-                if (!nextLi.hasClass('disabled')) {
-                    nextLi.addClass('disabled');
-                }
-                if (!lastLi.hasClass('disabled')) {
-                    lastLi.addClass('disabled');
-                }
-            } else {
-                if (firstLi.hasClass('disabled')) {
-                    firstLi.removeClass('disabled');
-                }
-                if (previousLi.hasClass('disabled')) {
-                    previousLi.removeClass('disabled');
-                }
-                if (nextLi.hasClass('disabled')) {
-                    nextLi.removeClass('disabled');
-                }
-                if (lastLi.hasClass('disabled')) {
-                    lastLi.removeClass('disabled');
-                }
-            }
-        }
-        function imagePage(src) {
-            var pageNumber;
-            if (src != null) {
-                pageNumber = $(src).data('pagenumber');
-                window.activePage = pageNumber;
-                if (pageNumber == 1) {
-                    setActivePage('#left');
-                    window.middlePage = 2;
-                    setPageIndex();
-                } else if (pageNumber == window.maxPage) {
-                    setActivePage('#right');
-                    window.middlePage = pageNumber - 1;
-                    setPageIndex();
-                } else {
-                    setActivePage('#middle');
-                    window.middlePage = pageNumber;
-                    setPageIndex();
-                }
-            } else {
-                pageNumber = 1;
-            }
-            updateButtonState();
-            $.ajax({
-                method: "POST",
-                url: "/imageService",
-                data: {
-                    "pageNumber": pageNumber
-                }
-            })
-            .done(function (res) {
-                $('#imageContainer').html("");
-                for (var i = 0; i < res.length; i++) {
-                    var img = $('<img />', {
-                        class: 'img-responsive img-margin',
-                        src: res[i].url,
-                        alt: res[i].id,
-                        'data-toggle': "modal",
-                        'data-target': "#exampleModal",
-                        'data-title' : res[i].title,
-                        'data-thumbnailurl' : res[i].thumbnailUrl,
-                        'data-position': i+1
-                    });
-                    img.appendTo($('#imageContainer'));
-                    var span = $('<div />', {
-                        class: 'img-description'
-                    }).html(res[i].title);
-                    $('#imageContainer').append(span);
-                }
 
 
-            });
-        }
