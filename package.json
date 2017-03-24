@@ -15,7 +15,6 @@
     "morgan": "~1.7.0",
     "path": "^0.12.7",
     "pug": "2.0.0-beta11",
-    "serve-favicon": "~2.3.2",
-    "stylus": "0.54.5"
+    "serve-favicon": "~2.3.2"
   }
 }
