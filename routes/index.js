@@ -4,7 +4,7 @@ var router = express.Router();
 var http = require('http');
 var imageData;
 var videoData;
-
+// read video description data from provided url
 http.request({
     host: 'jsonplaceholder.typicode.com',
     path: '/posts/1'
@@ -19,6 +19,7 @@ http.request({
     });
 }).end();
 
+// read image data from provided url
 http.request({
         host: 'jsonplaceholder.typicode.com',
         path: '/photos'
@@ -34,7 +35,8 @@ http.request({
     }).end();
 
 
-
+// hard-coded number of images per page,
+// can improve this by allowing users to specify this number in the UI
 var imagePerPage = 10;
 
 /* GET home page. */
@@ -45,7 +47,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-/* POST home page. */
+/* image tab. return 10 images required to front end*/
 router.post('/imageService', function (req, res) {
     var pageNumber = req.body.pageNumber;
     var images = [];
@@ -56,7 +58,7 @@ router.post('/imageService', function (req, res) {
     res.send(images);
 });
 
-/* POST home page. */
+/* pagination. return max page number*/
 router.post('/pageService', function (req, res) {
     var imageNumber = imageData.length;
     var maxPage = imageNumber / imagePerPage;
