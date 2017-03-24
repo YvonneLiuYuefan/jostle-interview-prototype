@@ -1,7 +1,10 @@
+/**
+ * change the animation rule by changing rotation degree
+ */
 function updateRotationDegree() {
     var inputVal = $('#inputDegree').val();
     if (inputVal < 0 || inputVal > 720) {
-        // $('#rotationModal ')
+        // TODO: $('#rotationModal ')
         $('#rotationModal').modal();
     } else {
         $('#rotationImg').mouseover(function() {
@@ -14,6 +17,9 @@ function updateRotationDegree() {
         });
     }
 }
+/**
+ * change the animation rule by changing rotation time
+ */
 function updateRotationTime() {
     var inputVal = $('#inputTime').val();
     if (inputVal < 0 || inputVal > 5) {

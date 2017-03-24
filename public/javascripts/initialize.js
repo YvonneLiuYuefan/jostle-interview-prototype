@@ -1,25 +1,27 @@
 jQuery(document).ready(function ($) {
-    $('#tabs').tab();
-    updateImageGallery(null);
-    getMaxPage();
+    // initialize various scenes
+    $('#tabs').tab(); // initialize tabs, so that users can switch between them; bootstrap function
+
+    // the following block of code is to be used by the image tab
+    updateImageGallery(null); // load first 10 images
+    getMaxPage(); // get max page number
+    // the following three variables help keep track of pagination button states
     window.previousActivePage = $('li.page-item.active');
     window.middlePage = 2;
     window.activePage = 1;
-    $('#inputTime').keyup(updateRotationTime);
-    $('#inputTime').change(updateRotationTime);
-    $('#inputDegree').keyup(updateRotationDegree);
-    $('#inputDegree').change(updateRotationDegree);
+    // imageIngoModal handler
+    // Update the modal's content base on the image that was clicked
     $('#imageInfoModal').on('show.bs.modal', function (event) {
         var img = $(event.relatedTarget); // Img that triggered the modal
         var title = img.data('title');
         var thumbnailUrl = img.data('thumbnailurl');
         var position = img.data('position');
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this);
         modal.find('.modal-title').text('Image ' + position + '/10');
         modal.find('#span1').html(title);
         modal.find('#span2').html(thumbnailUrl);
     });
+    // the following 4 handlers update pagination state and image gallery when pagination buttons are clicked
     $('li.page-item.next').on('click',function(event){
         if (window.activePage == 1) {
             setActivePaginationButton("#middle");
@@ -66,6 +68,12 @@ jQuery(document).ready(function ($) {
         setPageIndex();
         updateImageGallery($('#left'));
     });
+
+    // the following block of code is to be used by the other tab
+    $('#inputTime').keyup(updateRotationTime);
+    $('#inputTime').change(updateRotationTime);
+    $('#inputDegree').keyup(updateRotationDegree);
+    $('#inputDegree').change(updateRotationDegree);
 });
 
 
