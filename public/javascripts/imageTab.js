@@ -41,6 +41,9 @@ function getMaxPage() {
  * enable/disable certain pagination buttons depending on the current active page
  */
 function updateButtonState() {
+    if (window.activePage == undefined){
+        return
+    }
     var previousLi = $('li.page-item.previous');
     var firstLi = $('li.page-item.first');
     var nextLi = $('li.page-item.next');

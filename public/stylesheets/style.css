@@ -20,7 +20,7 @@ a {
      background-color: #4BA8DC !important;
      border: medium none !important;
      border-radius: 0 !important;
-     color:#bbe2f7 !important;
+     color:#bfe0f2 !important;
     font-size: 22px;
  }
 .nav-tabs > li.active > a,
@@ -62,6 +62,22 @@ iframe{
     max-height: 60vh;
 }
 /* image tab*/
+#paginationnav .pagination > .page-item > span:hover {
+    background-color: #eaf5fb;
+    border-color: #ddd;
+}
+#paginationnav .pagination > .page-item.active > span,
+#paginationnav .pagination > .page-item.active > span:focus,
+#paginationnav .pagination > .page-item.active > span:hover {
+    background-color: #4BA8DC;
+    border-color: #4BA8DC;
+}
+#paginationnav .pagination > .page-item.disabled > span,
+#paginationnav .pagination > .page-item.disabled > span:focus,
+#paginationnav .pagination > .page-item.disabled > span:hover {
+    background-color: #fbe9e9;
+    border-color: #ddd;
+}
 #imageContainer, #image{
     text-align: center;
 }
@@ -112,7 +128,7 @@ span.input-description {
 #imageInfoModal .modal-header{
     padding:9px 15px;
     border-bottom:1px solid #eee;
-    background-color: #f9ffea;
+    background-color: #eef7ed;
     color: #82C678;
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
@@ -124,10 +140,13 @@ span.input-description {
 #imageInfoModal .modal-body img {
     padding-bottom: 15px;
 }
+#span2,#span3 {
+    color: #7ac36f;
+}
 #rotationModal .modal-header{
     padding:9px 15px;
     border-bottom:1px solid #eee;
-    background-color: #f9f2f4;
+    background-color: #fbe9e9;
     color: #E25D5D;
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
