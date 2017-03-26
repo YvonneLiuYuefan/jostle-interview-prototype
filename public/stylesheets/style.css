@@ -104,3 +104,38 @@ span.input-description {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
 }
+/* modals */
+.modal-body span {
+    font-size: 18px;
+    color: #232323;
+}
+#imageInfoModal .modal-header{
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #f9ffea;
+    color: #82C678;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+#imageInfoModal .modal-body img {
+    padding-bottom: 15px;
+}
+#rotationModal .modal-header{
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #f9f2f4;
+    color: #E25D5D;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+#input-span {
+    color: #E25D5D;
+}

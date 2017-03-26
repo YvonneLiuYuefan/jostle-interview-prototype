@@ -4,13 +4,16 @@
             .modal-header
                 button.close(type='button', data-dismiss='modal', aria-label='Close')
                     span(aria-hidden='true') &times;
-                h4#imageInfoModalLabel.modal-title Image detail
+                h3#imageInfoModalLabel.modal-title Image Detail
             .modal-body
+                image#thumbnail(src="")
+                br
                 span Title:
                 span#span1 span1
                 br
-                span ThumbnailUrl:
-                span#span2 span2
+                span Position:
+                span#span2 span3
+
 #rotationModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='rotationModalLabel')
     .modal-dialog(role='document')
         .modal-content
@@ -19,4 +22,7 @@
                     span(aria-hidden='true') &times;
                 h4#rotationModalLabel.modal-title Error
             .modal-body
-                span
+                span#input-span input-span
+                span is not valid.
+                br
+                span#message-span message-span

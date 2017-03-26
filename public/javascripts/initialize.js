@@ -17,9 +17,9 @@ jQuery(document).ready(function ($) {
         var thumbnailUrl = img.data('thumbnailurl');
         var position = img.data('position');
         var modal = $(this);
-        modal.find('.modal-title').text('Image ' + position + '/10');
-        modal.find('#span1').html(title);
-        modal.find('#span2').html(thumbnailUrl);
+        modal.find('#span1').html(' ' + title);
+        modal.find('#thumbnail').attr('src', thumbnailUrl);
+        modal.find('#span2').html(' This is the '+ position + '/10 image on page ' + window.activePage);
     });
     // the following 4 handlers update pagination state and image gallery when pagination buttons are clicked
     $('li.page-item.next').on('click',function(event){
