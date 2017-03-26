@@ -1,17 +1,24 @@
 #other.tab-pane.fade
-    h1 Other
-    p Try change the value and hover over the image
-    .form-horizontal
-        .form-group
-            label.col-sm-1.control-label(for='inputTime') Time
-            .col-sm-2
-                input#inputTime.form-control(type='number', value='1')
-            .col-sm-4
-                span Time should be in the range 0~5s.
-        .form-group
-            label.col-sm-1.control-label(for='inputDegree') Angle
-            .col-sm-2
-                input#inputDegree.form-control(type='number', value='360')
-            .col-sm-4
-                span Angle should be in the range 0~720 degrees.
-    img#rotationImg(src="https://s3-us-west-2.amazonaws.com/s.lumpen.com/media/images/showimages/radius.jpg")
+    div.tabtitle-container
+        h1.tab-title Other
+        h3.tab-title Try change the value and hover over the image
+    .col-lg-2
+    .col-lg-5
+        .form-horizontal
+            .form-group
+                label.col-sm-2.control-label(for='inputTime') Time
+                .col-sm-4
+                    input#inputTime.form-control(type='number', value='1')
+            .form-group
+                .col-sm-2
+                span.input-description Time should be in the range 0~5s.
+            .form-group
+                label.col-sm-2.control-label(for='inputDegree') Angle
+                .col-sm-4
+                    input#inputDegree.form-control(type='number', value='360')
+            .form-group
+                .col-sm-2
+                span.input-description Angle should be in the range 0~720 degrees.
+    .col-lg-3
+        img#rotationImg(src="https://s3-us-west-2.amazonaws.com/s.lumpen.com/media/images/showimages/radius.jpg")
+    .col-lg-2

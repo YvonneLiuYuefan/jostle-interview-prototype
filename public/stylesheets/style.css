@@ -4,7 +4,39 @@ body {
     overflow-y: hidden;
 }
 a {
-    color: #00b7ff;
+    color: #4BA8DC;
+}
+.nav{
+    background-color:#4BA8DC !important;
+}
+.nav-tabs{
+    background-color:#4BA8DC !important;
+}
+.tab-content{
+    color:#4BA8DC;
+    padding:5px
+}
+.nav-tabs > li > a{
+     background-color: #4BA8DC !important;
+     border: medium none !important;
+     border-radius: 0 !important;
+     color:#bbe2f7 !important;
+    font-size: 22px;
+ }
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus{
+    cursor: default;
+    background-color: #ffffff !important;
+    border: medium none !important;
+    border-radius: 0 !important;
+    color:#4BA8DC !important;
+}
+.nav-tabs > li > a:hover{
+    background-color: #4BA8DC !important;
+    border: medium none !important;
+    border-radius: 0 !important;
+    color:#fff !important;
 }
 .tab-pane.fade{
     transition: opacity .8s linear;
@@ -22,6 +54,14 @@ a {
     justify-content: center;
     text-align: center;
 }
+/* video tab*/
+#videoContainer{
+    height: 90vh;
+}
+iframe{
+    max-height: 60vh;
+}
+/* image tab*/
 #imageContainer, #image{
     text-align: center;
 }
@@ -42,11 +82,16 @@ ul.pagination > li > span {
     height: 75vh;
     overflow-y: scroll;
 }
-#videoContainer{
-    height: 90vh;
+/* other tab */
+div.tabtitle-container {
+    text-align: center;
 }
-iframe{
-    max-height: 60vh;
+.tab-title {
+    margin: auto;
+    padding-bottom: 25px;
+}
+span.input-description {
+    padding-left: 15px;
 }
 #rotationImg {
     height: 150px;
